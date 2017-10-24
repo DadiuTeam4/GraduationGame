@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Mac" BasePlatform="Mac" SchemaVersion="11" SoundbankVersion="125">
+	<RootPaths>
+		<ProjectRoot>/Users/kristianriis/Library/Application Support/Wwise2017/Bottles/wwise/dosdevices/y:/Desktop/DADIU/MGP2/MGP2/MGP2wwise/</ProjectRoot>
+		<SourceFilesRoot>/Users/kristianriis/Library/Application Support/Wwise2017/Bottles/wwise/dosdevices/y:/Desktop/DADIU/MGP2/MGP2/MGP2wwise/.cache/Mac/</SourceFilesRoot>
+		<SoundBanksRoot>/Users/kristianriis/Library/Application Support/Wwise2017/Bottles/wwise/dosdevices/y:/Desktop/DADIU/MGP2/MGP2/Assets/StreamingAssets/Audio/GeneratedSoundBanks/Mac/</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>/Users/kristianriis/Library/Application Support/Wwise2017/Bottles/wwise/dosdevices/y:/Desktop/DADIU/MGP2/MGP2/MGP2wwise/GeneratedSoundBanks/Mac/</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<DialogueEvents/>
+	<StreamedFiles/>
+	<MediaFilesNotInAnyBank/>
+	<SoundBanks>
+		<SoundBank Id="1355168291" Language="SFX">
+			<ObjectPath>Init</ObjectPath>
+			<ShortName>Init</ShortName>
+			<Path>Init.bnk</Path>
+		</SoundBank>
+		<SoundBank Id="1647770673" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\SoundbankA</ObjectPath>
+			<ShortName>SoundbankA</ShortName>
+			<Path>SoundbankA.bnk</Path>
+			<IncludedEvents>
+				<Event Id="3157003241" Name="test" ObjectPath="\Events\Default Work Unit\test"/>
+				<Event Id="576110586" Name="test1" ObjectPath="\Events\Default Work Unit\test1"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="544317462" Language="SFX">
+					<ShortName>3 sek. udkast row2.wav</ShortName>
+					<Path>SFX/3 sek. udkast row2_1C9C67B2.wem</Path>
+				</File>
+				<File Id="564873371" Language="SFX">
+					<ShortName>3 sek. udkast.wav</ShortName>
+					<Path>SFX/3 sek. udkast_1C9C67B2.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

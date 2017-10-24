@@ -1,0 +1,11 @@
+Event	ID	Name			Wwise Object Path	Notes
+	576110586	test1			\Default Work Unit\test1	
+	3157003241	test			\Default Work Unit\test	
+
+Game Parameter	ID	Name			Wwise Object Path	Notes
+	2010788230	testparameter			\Default Work Unit\testparameter	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	544317462	3 sek_ udkast row2	Y:\Desktop\DADIU\MGP2\MGP2\MGP2wwise\.cache\Mac\SFX\3 sek. udkast row2_1C9C67B2.wem		\Actor-Mixer Hierarchy\Default Work Unit\test\3 sek_ udkast row2		2304064
+	564873371	3 sek_ udkast	Y:\Desktop\DADIU\MGP2\MGP2\MGP2wwise\.cache\Mac\SFX\3 sek. udkast_1C9C67B2.wem		\Actor-Mixer Hierarchy\Default Work Unit\test\3 sek_ udkast		2304064
+
