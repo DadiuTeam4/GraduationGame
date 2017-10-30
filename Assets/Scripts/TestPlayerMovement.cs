@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour {
+public class TestPlayerMovement : MonoBehaviour {
     private Camera cam;
     private bool isWalking = false;
     Vector3 destination;
-
-    bool hugo = true;
+    
     // Use this for initialization
     void Start () {
         cam = Camera.main;
