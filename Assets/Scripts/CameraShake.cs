@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿// Author: You Wu
+// Contributors: 
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,6 +43,8 @@ public class CameraShake : MonoBehaviour
                 if (shakeDuration > 0)
                 {
                     cameraTransform.position = originalPos + Random.insideUnitSphere * shakeIntensity;
+                    //Decrease the shake intensity with time elapsing
+                    shakeIntensity -= Time.deltaTime * shakeIntensity / shakeDuration; 
                     shakeDuration -= Time.deltaTime;
                 }
                 else
