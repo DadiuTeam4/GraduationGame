@@ -226,12 +226,9 @@ public class InputSystem : Singleton<InputSystem>
 				heldThisFrame[touch.fingerId] = holdable;
 			}
 
-			// Check if the touch hit a swipable
-			Swipeable swipeable = GetSwipeable(raycastHits[touch.fingerId].Value);
-			if (swipeable)
-			{
-				CheckSwipe(touch, swipeable);
-			}
+			
+			CheckSwipe(touch);
+			
 		}
 	}
 
@@ -255,12 +252,9 @@ public class InputSystem : Singleton<InputSystem>
 				}
 			}
 
-			// Check if the touch hit a swipable
-			Swipeable swipeable = GetSwipeable(raycastHits[touch.fingerId].Value);
-			if (swipeable)
-			{
-				CheckSwipe(touch, swipeable);
-			}
+			
+			CheckSwipe(touch);
+			
 		}
 		if (heldLastFrame[touch.fingerId] && heldLastFrame[touch.fingerId] != heldThisFrame[touch.fingerId])
 		{
@@ -301,7 +295,7 @@ public class InputSystem : Singleton<InputSystem>
 		return false;
 	}
 
-	private void CheckSwipe(Touch touch, Swipeable swipeable)
+	private void CheckSwipe(Touch touch)
 	{
 		touchPositions[touch.fingerId].Add(touch.position);
 
@@ -312,10 +306,17 @@ public class InputSystem : Singleton<InputSystem>
 		Vector3 lastPoint = Camera.main.ScreenToWorldPoint(new Vector3(lastPosition.x, lastPosition.y, Camera.main.nearClipPlane));
 
 		Vector3 direction = lastPoint - firstPoint;
+		
 		swipeDirections.Add(direction);
-		swipeable.OnSwipe(raycastHits[touch.fingerId].Value, direction);
-		touchPositions[touch.fingerId].Clear();
-		touchPositions[touch.fingerId].Add(touch.position);
+		// Check if the touch hit a swipable
+		Swipeable swipeable = GetSwipeable(raycastHits[touch.fingerId].Value);
+			
+		if (swipeable)
+		{
+			swipeable.OnSwipe(raycastHits[touch.fingerId].Value, direction);
+			touchPositions[touch.fingerId].Clear();
+			touchPositions[touch.fingerId].Add(touch.position);
+		}
 	}
 
 	private Holdable GetHoldable(RaycastHit hit)

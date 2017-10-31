@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿//Author:Tilemachos	
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,25 +24,30 @@ private float changedEmissionRate = 1;
 
 private bool leftSwipeHasHappened = false;
 private bool rightSwipeHasHappened = false;
-
-
+private Vector3 windDirection;
 private GameObject newWind;
-	public override void OnSwipe(RaycastHit raycastHit, Vector3 direction)
-	{
-		print("Swiped at " + raycastHit.point + " with force: " + direction.magnitude);
-		leftSwipeHasHappened  = true;
-		
-	}
 
-	void Update ()
+	void LateUpdate()
 	{
-
+		if(InputSystem.swipeDirections.Count > 0)
+		{
+			windDirection = InputSystem.swipeDirections[0];
+			print(windDirection);
+			if(windDirection.x < 0.0)
+			{
+				leftSwipeHasHappened = true;
+			}
+			if(windDirection.x > 0.0)
+			{
+				rightSwipeHasHappened = true;
+			}
+		}
 		timer -= Time.deltaTime;
 
-		if (Input.GetKeyDown("q") )//right wind
+		if (Input.GetKeyDown("q") || rightSwipeHasHappened)//right wind
 		{
-			Destroy(newWind);
-        
+			StopEverything();
+			
 			var externalForce = middleFogLeft.externalForces;
         	externalForce.enabled = false;
 
@@ -61,8 +69,8 @@ private GameObject newWind;
 
 		if (Input.GetKeyDown("e") || leftSwipeHasHappened)//left wind
 		{
-			Destroy(newWind);
-
+			StopEverything();
+			
 			var externalForce = middleFogRight.externalForces;
         	externalForce.enabled = false;
 
@@ -84,8 +92,19 @@ private GameObject newWind;
 
 		if(timer < 0)
 		{
-			Destroy(newWind);
+			StopEverything();
+		}
 
+
+    }
+
+
+
+	void StopEverything()
+	{
+			Destroy(newWind);
+			rightSwipeHasHappened = false;
+			leftSwipeHasHappened = false;
 			var externalForce = middleFogRight.externalForces;
         	externalForce.enabled = true;
 
@@ -111,9 +130,6 @@ private GameObject newWind;
 			emissionRate.rateOverTime = defaultEmissionRate;
 
 			timer = waitTime;
-		}
-
-
-    }
+	}
 	
 }

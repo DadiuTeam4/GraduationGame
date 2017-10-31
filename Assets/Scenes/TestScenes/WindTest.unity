@@ -610,7 +610,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4518413113991610, guid: 496a7191367edf148ac6e1c013d5bccb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8.860001
+      value: 5.27
       objectReference: {fileID: 0}
     - target: {fileID: 4518413113991610, guid: 496a7191367edf148ac6e1c013d5bccb, type: 2}
       propertyPath: m_LocalPosition.y
@@ -666,7 +666,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4534157247012262, guid: c77e284792bfff248a5bb83a5f376e0d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8.02
+      value: 5.27
       objectReference: {fileID: 0}
     - target: {fileID: 4534157247012262, guid: c77e284792bfff248a5bb83a5f376e0d, type: 2}
       propertyPath: m_LocalPosition.y
@@ -984,7 +984,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4157647355207812, guid: 158c5779eabec3c42b7d623ee3e318f1, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8.309999
+      value: 5.27
       objectReference: {fileID: 0}
     - target: {fileID: 4157647355207812, guid: 158c5779eabec3c42b7d623ee3e318f1, type: 2}
       propertyPath: m_LocalPosition.y
@@ -1053,6 +1053,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cccef2c79be46c644b3708bc48247272, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  header: Handles all touch input and accelerometer input. All objects inheriting
+    from the Holdable, Swipable and Shakable classes are called accordingly from this
+    class.
+  forceMultiplier: 100
+  lowerShakeTreshold: 3.5
+  magnitudeDropRate: 0.2
+  terminalVelocity: 50
+  lowerMagnitudeThreshold: 200
+  maxCumulativeMagnitude: 10000
 --- !u!4 &1717077716
 Transform:
   m_ObjectHideFlags: 0
