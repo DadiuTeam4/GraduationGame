@@ -7,25 +7,88 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    // Use this for initialization
+    //Variable For following the player
     public GameObject player;
-    public bool isFollwingTheHuner;
+    public bool isCameraFollwingPlayer;
     Vector3 offset;
+
+    //Variables For Shaking
+    public float shakeDuration = 0f;
+    public float shakeIntensity = 0.5f;
+    public bool isShaking;
+    private Transform cameraTransform;
+    private Rigidbody playerRd;
+    public float CameraSpeed = 0.1f;
+
+    void Awake()
+    {
+        cameraTransform = GetComponent<Transform>();
+
+        playerRd = player.GetComponent<Rigidbody>();
+
+    }
 
     void Start()
     {
         offset = transform.position - player.transform.position;
-        isFollwingTheHuner = true;
+        //If is shaking, should not follow the player
+        isCameraFollwingPlayer = false;
+        isShaking = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isFollwingTheHuner)
+        UpdateFollowingPlayer();
+        UpdateShaking();
+    }
+
+    void UpdateFollowingPlayer()
+    {
+        if (isCameraFollwingPlayer)
         {
-            transform.position = player.transform.position + offset;
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position + offset, CameraSpeed);
+        }
+    }
+
+    void UpdateShaking()
+    {
+        if (isShaking)
+        {
+            if (cameraTransform == null)
+            {
+                Debug.LogError("Transform of Camera is NUll!");
+            }
+            else
+            {
+                if (shakeDuration > 0)
+                {
+                    ShakeCamera();
+                }
+                else
+                {
+                    StopShakingCamera();
+                }
+            }
         }
 
+    }
+
+    void ShakeCamera()
+    {
+        Vector3 intensity = Random.insideUnitSphere * shakeIntensity;
+        cameraTransform.position = cameraTransform.position + intensity;
+        playerRd.AddForce(intensity * 100);
+        //Decrease the shake intensity with time elapsing
+        shakeIntensity -= Time.deltaTime * shakeIntensity / shakeDuration;
+        shakeDuration -= Time.deltaTime;
+    }
+
+    void StopShakingCamera()
+    {
+        shakeDuration = 0f;
+        isShaking = false;
+        isCameraFollwingPlayer = true;
     }
 
 }
