@@ -1,8 +1,12 @@
-﻿using System.Collections;
+﻿// Author: Itai Yavin
+// Contributors:
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SinkableObject : Holdable {
+public class SinkableObject : Holdable 
+{
 
 	private Vector3 startPosition;
 	private Vector3 endPosition;
