@@ -54,7 +54,6 @@ public class SinkableObject : Holdable
 
 	public override void OnTouchHold(RaycastHit hit)
 	{
-		Debug.Log(timeHeld);
 		if (timeHeld >= sinkDelay)
 		{
 			if (rising)
