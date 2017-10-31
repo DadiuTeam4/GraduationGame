@@ -90,6 +90,8 @@ public class InputSystem : Singleton<InputSystem>
 				OnMouseUp();
 			}
 		}
+
+		CallMouseHeldObjects();
 		#endif
 		#endregion
 
@@ -247,10 +249,27 @@ public class InputSystem : Singleton<InputSystem>
 		}
 	}
 
+
 	#region DEBUG
 	#if UNITY_EDITOR
 	// MOUSE DEBUGGING
 	// NOT COMPILED IN BUILDS
+	private void CallMouseHeldObjects()
+	{
+		if (heldThisFrame[0])
+		{
+			if (heldLastFrame[0] == heldLastFrame[0])
+			{
+				heldThisFrame[0].timeHeld += Time.deltaTime;
+				heldThisFrame[0].OnTouchHold(raycastHits[0].Value);
+			}
+			else
+			{
+				heldThisFrame[0].timeHeld = 0;
+			}
+		}
+	}
+
 	private void OnMouse()
 	{
 		Vector2 mousePos = Input.mousePosition;
@@ -261,12 +280,9 @@ public class InputSystem : Singleton<InputSystem>
 			if (holdable)
 			{
 				heldThisFrame[0] = holdable;
-				if (Input.GetMouseButtonDown(0)) 
+				if (Input.GetMouseButtonDown(0))
 				{
-					if (!mouseDownLastFrame)
-					{
-						holdable.OnTouchBegin(raycastHits[0].Value);
-					}
+					holdable.OnTouchBegin(raycastHits[0].Value);
 				}
 
 				foreach (Holdable lastFrameHoldable in heldLastFrame)
@@ -288,7 +304,6 @@ public class InputSystem : Singleton<InputSystem>
 				}
 			}
 		}
-		mouseDownLastFrame = true;
 	}
 
 	private void OnMouseUp()
@@ -301,7 +316,6 @@ public class InputSystem : Singleton<InputSystem>
 			if (holdable)
 			{
 				holdable.OnTouchReleased();
-				mouseDownLastFrame = false;
 			}
 		}
 	}
