@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SinkableObject : MonoBehaviour {
+public class SinkableObject : Holdable {
 
 	private Vector3 startPosition;
 	private Vector3 endPosition;
 	
-	[Tooltip("The depth in unity units the object will sink")]
-	public float depth = 1.0f;
+	[Header("Sinking Variables")]
 	[Tooltip("The speed of which the object will sink")]
 	[Range(0.01f, 1.0f)]
 	public float sinkSpeed = 0.10f;
 	[Tooltip("The amount of seconds pressed before sinking")]
 	public float sinkDelay = 1.0f;
+	[Tooltip("The depth in unity units the object will sink")]
+	public float depth = 1.0f;
+
+	[Header("Rising Variables")]
 	[Tooltip("The speed of which the object will rise")]
 	[Range(0.01f, 1.0f)]
 	public float riseSpeed = 0.1f;
@@ -21,11 +24,9 @@ public class SinkableObject : MonoBehaviour {
 	public float riseDelay = 1.0f;
 
 	private float timeTillRise;
-	private bool reachedDepth = false;
-	private bool startedRising;
+	private bool rising;
 
 	private RaycastHit hit;
-	private float timeSinceMouseButtonDown = 0.0f;
 	private float t = 0.0f;
 
 	void Start()
@@ -37,49 +38,41 @@ public class SinkableObject : MonoBehaviour {
 
 	void Update()
 	{
-		if (reachedDepth && !startedRising)
+		if (rising && Time.time > timeTillRise)
 		{
-			timeTillRise = Time.time + riseDelay;
-			startedRising = true;
-			Debug.Log("SETTING TIME");
-		}
-
-		if(startedRising && Time.time > timeTillRise)
-		{
-			Debug.Log("STARTING COROUTINE");
-			StartCoroutine("Rise");
-			startedRising = false;
-		}
-
-		if (Input.GetMouseButton(0))
-		{
-			hit = TestRayCasting();
-			if (hit.collider.gameObject == gameObject)
-			{
-				timeSinceMouseButtonDown += Time.deltaTime;
-				Sink(timeSinceMouseButtonDown);
-			}
-		}
-		else
-		{
-			timeSinceMouseButtonDown = 0.0f;
+			Rise();
 		}
 	}
 
-	public void Sink(float time)
+	public override void OnTouchBegin(RaycastHit hit)
 	{
-		if (time >= sinkDelay)
+	}
+
+	public override void OnTouchHold(RaycastHit hit)
+	{
+		Debug.Log(timeHeld);
+		if (timeHeld >= sinkDelay)
 		{
+			if (rising)
+			{
+				rising = false;
+			}
+
 			t += sinkSpeed;
 
 			if (t >= 1.0f)
 			{
 				t = 1.0f;
-				reachedDepth = true;
 			}
 
 			transform.position = Vector3.Lerp(startPosition, endPosition, t);
 		}
+	}
+
+	public override void OnTouchReleased()
+	{
+		rising = true;
+		timeTillRise = Time.time + riseDelay;
 	}
 
 	public void Rise()
@@ -89,7 +82,7 @@ public class SinkableObject : MonoBehaviour {
 		if (t < 0.0f)
 		{
 			t = 0.0f;
-			reachedDepth = false;
+			rising = false;
 		}
 
 		transform.position = Vector3.Lerp(startPosition, endPosition, t);
