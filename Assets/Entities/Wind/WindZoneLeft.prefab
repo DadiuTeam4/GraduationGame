@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4851890151949326}
   - component: {fileID: 182478938627157350}
-  - component: {fileID: 114833221148537966}
   m_Layer: 0
   m_Name: WindZoneLeft
   m_TagString: Untagged
@@ -41,17 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -3.7930002, y: 283.807, z: -0.68500006}
---- !u!114 &114833221148537966
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1151488289235144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!182 &182478938627157350
 WindZone:
   m_ObjectHideFlags: 1
