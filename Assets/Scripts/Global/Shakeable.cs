@@ -4,15 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shakeable : MonoBehaviour 
+public class Shakeable : MonoBehaviour
 {
-	void Start () 
-	{
-		
-	}
-
-	void Update () 
-	{
-		
-	}
+	//Vitual fucntion called when shaking the tablets
+    public virtual void OnShakeBegin() {}
 }
