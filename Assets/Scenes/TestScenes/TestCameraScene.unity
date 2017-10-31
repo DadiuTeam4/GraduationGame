@@ -444,11 +444,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1176349726}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dcfa708eb0e68344fbe565e6f5f8aa8b, type: 3}
+  m_Script: {fileID: 11500000, guid: 8281b063971a8294d8a53b1c8edf6a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 814058943}
-  isFollwingTheHuner: 0
+  cameraTransform: {fileID: 1176349732}
+  shakeDuration: 5
+  shakeIntensity: 0.5
 --- !u!1 &1710176721
 GameObject:
   m_ObjectHideFlags: 0
