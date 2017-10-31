@@ -15,6 +15,8 @@ public class InputSystem : Singleton<InputSystem>
 	
 	private RaycastHit?[] raycastHits = new RaycastHit?[maxNumberTouches];
 
+	private Dictionary<int, List<Vector3>> touchPositions = new Dictionary<int, List<Vector3>>();
+
 	#region DEBUG
 	#if UNITY_EDITOR
 	// MOUSE DEBUGGING
@@ -22,6 +24,14 @@ public class InputSystem : Singleton<InputSystem>
 	bool mouseDownLastFrame;
 	#endif
 	#endregion
+
+	private void Start()
+	{
+		for (int i = 0; i < maxNumberTouches; i++)
+		{
+			touchPositions.Add(i, new List<Vector3>());
+		}
+	}
 
 	#region UPDATE_LOOP
 	private void Update()
@@ -108,6 +118,13 @@ public class InputSystem : Singleton<InputSystem>
 				holdable.OnTouchBegin(raycastHits[touch.fingerId].Value);
 				heldThisFrame[touch.fingerId] = holdable;
 			}
+
+			// Check if the touch hit a swipable
+			Swipeable swipeable = GetSwipeable(raycastHits[touch.fingerId].Value);
+			if (swipeable)
+			{
+				CheckSwipe(touch, swipeable);
+			}
 		}
 	}
 
@@ -131,6 +148,12 @@ public class InputSystem : Singleton<InputSystem>
 				}
 			}
 
+			// Check if the touch hit a swipable
+			Swipeable swipeable = GetSwipeable(raycastHits[touch.fingerId].Value);
+			if (swipeable)
+			{
+				CheckSwipe(touch, swipeable);
+			}
 		}
 		if (heldLastFrame[touch.fingerId] && heldLastFrame[touch.fingerId] != heldThisFrame[touch.fingerId])
 		{
@@ -144,6 +167,7 @@ public class InputSystem : Singleton<InputSystem>
 		{
 			heldLastFrame[touch.fingerId].OnTouchReleased();
 		}
+		touchPositions[touch.fingerId].Clear();
 		raycastHits[touch.fingerId] = null;
 	}
 
@@ -153,6 +177,7 @@ public class InputSystem : Singleton<InputSystem>
 		{
 			heldLastFrame[touch.fingerId].OnTouchReleased();
 		}
+		touchPositions[touch.fingerId].Clear();
 		raycastHits[touch.fingerId] = null;
 	}
 
@@ -169,9 +194,30 @@ public class InputSystem : Singleton<InputSystem>
 		return false;
 	}
 
+	private void CheckSwipe(Touch touch, Swipeable swipeable)
+	{
+		touchPositions[touch.fingerId].Add(touch.position);
+
+		Vector3 firstPosition = touchPositions[touch.fingerId][0];
+		Vector3 lastPosition = touchPositions[touch.fingerId][touchPositions[touch.fingerId].Count-1];
+
+		Vector3 firstPoint = Camera.main.ScreenToWorldPoint(new Vector3(firstPosition.x, firstPosition.y, Camera.main.nearClipPlane));
+		Vector3 lastPoint = Camera.main.ScreenToWorldPoint(new Vector3(lastPosition.x, lastPosition.y, Camera.main.nearClipPlane));
+
+		Vector3 direction = lastPoint - firstPoint;
+		swipeable.OnSwipe(raycastHits[touch.fingerId].Value, direction);
+		touchPositions[touch.fingerId].Clear();
+		touchPositions[touch.fingerId].Add(touch.position);
+	}
+
 	private Holdable GetHoldable(RaycastHit hit)
 	{
 		return hit.collider.GetComponent<Holdable>();
+	}
+
+	private Swipeable GetSwipeable(RaycastHit hit)
+	{
+		return hit.collider.GetComponent<Swipeable>();
 	}
 
 	private void CallHeldObjects(Touch[] touches)

@@ -6,13 +6,5 @@ using UnityEngine;
 
 public class Swipeable : MonoBehaviour 
 {
-	void Start () 
-	{
-		
-	}
-
-	void Update () 
-	{
-		
-	}
+	public virtual void OnSwipe(RaycastHit raycastHit, Vector3 direction) {}
 }
