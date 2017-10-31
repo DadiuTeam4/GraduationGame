@@ -8,14 +8,41 @@ using UnityEngine;
 
 public class InputSystem : Singleton<InputSystem>
 {
+	[TextArea(0, 10)]
+	public string header = "Handles all touch input and accelerometer input. All objects inheriting from the Holdable, Swipable and Shakable classes are called accordingly from this class.";
+	#region TOUCH_INPUT
 	private static readonly int maxNumberTouches = 20;
-
 	private Holdable[] heldLastFrame = new Holdable[maxNumberTouches];
 	private Holdable[] heldThisFrame = new Holdable[maxNumberTouches];
-	
 	private RaycastHit?[] raycastHits = new RaycastHit?[maxNumberTouches];
-
 	private Dictionary<int, List<Vector3>> touchPositions = new Dictionary<int, List<Vector3>>();
+	#endregion
+
+	#region ACCELEROMETER_INPUT
+	[Header("Shake input")]
+	[Tooltip("Force multiplication to compensate for delta time.")]
+	public float forceMultiplier = 100f;
+	[Tooltip("Shakes under this threshold are ignored by the input system.")]
+	public float lowerShakeTreshold = 3.5f;
+	[Tooltip("This number represents how fast the cumulative magnitude drops when the tablet is not shaken.")]
+	public float magnitudeDropRate = 0.2f;
+	[Tooltip("The limit for how fast the cumulative magnitude can rise and fall.")]
+	public float terminalVelocity = 50f;
+	[Tooltip("A cumulative magnitude under this threshold is ignored.")]
+	public float lowerMagnitudeThreshold = 200f;
+	[Tooltip("The upper limit for the cumulative magnitude.")]
+	public float maxCumulativeMagnitude = 10000f;
+
+	private float magnitudeVelocity;
+	private float cumulativeMagnitude;
+
+	private bool shookLastFrame = false;
+	private bool shookThisFrame = false;
+
+	private float compensatedDeltaTime;
+
+	private Shakeable[] shakeables;
+	#endregion
 
 	#region DEBUG
 	#if UNITY_EDITOR
@@ -27,14 +54,88 @@ public class InputSystem : Singleton<InputSystem>
 
 	private void Start()
 	{
+		// Initialize touch positions
 		for (int i = 0; i < maxNumberTouches; i++)
 		{
 			touchPositions.Add(i, new List<Vector3>());
 		}
+
+		// Initialize shake values
+		magnitudeVelocity = 0;
+		cumulativeMagnitude = 0;
+
+		// Get all shakeable objects
+		shakeables = GetAllShakeables();
 	}
 
 	#region UPDATE_LOOP
 	private void Update()
+	{
+		HandleAccelerometerInput();
+		HandleTouchInput();
+	}
+	#endregion
+
+	#region ACCELEROMETER_INPUT
+	private void HandleAccelerometerInput()
+	{
+		compensatedDeltaTime = Time.deltaTime * forceMultiplier;
+		UpdateMagnitudeVelocity();
+		UpdateCumulativeMagnitude();
+		CallShakeables();
+		shookLastFrame = shookThisFrame;
+		shookThisFrame = false;
+	}
+
+	private void UpdateMagnitudeVelocity()
+	{
+		Vector3 accelerationInput = Input.acceleration;
+		float magnitude = accelerationInput.magnitude * compensatedDeltaTime;
+		if (magnitude > lowerShakeTreshold)
+		{
+			magnitudeVelocity += magnitude;
+		}
+		magnitudeVelocity -= magnitudeDropRate * compensatedDeltaTime;
+		magnitudeVelocity = Mathf.Clamp(magnitudeVelocity, -terminalVelocity, terminalVelocity);
+		print(magnitudeVelocity);
+	}
+
+	private void UpdateCumulativeMagnitude()
+	{
+		cumulativeMagnitude = Mathf.Clamp(cumulativeMagnitude + magnitudeVelocity, 0.0f, maxCumulativeMagnitude);
+		shookThisFrame = cumulativeMagnitude > lowerMagnitudeThreshold;
+	}
+
+	private void CallShakeables()
+	{
+		if (shookThisFrame || shookLastFrame)
+		{
+			foreach (Shakeable shakeable in shakeables)
+			{
+				if (shookThisFrame)
+				{
+					if(!shookLastFrame)
+					{
+						shakeable.OnShakeBegin(cumulativeMagnitude);
+					}
+					shakeable.OnShake(cumulativeMagnitude);
+				}
+				else
+				{
+					shakeable.OnShakeEnd();
+				}
+			}
+		}
+	}
+
+	private Shakeable[] GetAllShakeables()
+	{
+		return FindObjectsOfType<Shakeable>();
+	}
+	#endregion
+
+	#region TOUCH_INPUT
+	private void HandleTouchInput()
 	{
 		// Resolve all touches
 		Touch[] touches = GetTouches();
@@ -97,7 +198,6 @@ public class InputSystem : Singleton<InputSystem>
 
         CallHeldObjects(touches);
 	}
-	#endregion
 
 	private Touch[] GetTouches() 
 	{
@@ -248,7 +348,7 @@ public class InputSystem : Singleton<InputSystem>
 			heldThisFrame[i] = null;
 		}
 	}
-
+	#endregion
 
 	#region DEBUG
 	#if UNITY_EDITOR

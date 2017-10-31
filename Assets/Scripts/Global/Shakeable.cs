@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Shakeable : MonoBehaviour
 {
-    public virtual void OnShakeBegin() {}
-    public virtual void OnShake() {}
+    public virtual void OnShakeBegin(float magnitude) {}
+    public virtual void OnShake(float magnitude) {}
     public virtual void OnShakeEnd() {}
 }
