@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
     Vector3 offset;
 
     //Variables For Shaking
-    public float shakeDuration = 0f;
+    public float shakeDuration = 5f;
     public float shakeIntensity = 0.5f;
     public bool isShaking;
     private Transform cameraTransform;
@@ -83,7 +83,6 @@ public class CameraController : MonoBehaviour
         shakeIntensity -= Time.deltaTime * shakeIntensity / shakeDuration;
         shakeDuration -= Time.deltaTime;
     }
-
     void StopShakingCamera()
     {
         shakeDuration = 0f;
