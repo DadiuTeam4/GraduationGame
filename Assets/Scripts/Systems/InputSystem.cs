@@ -97,7 +97,6 @@ public class InputSystem : Singleton<InputSystem>
 		}
 		magnitudeVelocity -= magnitudeDropRate * compensatedDeltaTime;
 		magnitudeVelocity = Mathf.Clamp(magnitudeVelocity, -terminalVelocity, terminalVelocity);
-		print(magnitudeVelocity);
 	}
 
 	private void UpdateCumulativeMagnitude()
