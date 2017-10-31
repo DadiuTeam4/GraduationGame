@@ -11,6 +11,8 @@ public class InputSystem : Singleton<InputSystem>
 	[TextArea(0, 10)]
 	public string header = "Handles all touch input and accelerometer input. All objects inheriting from the Holdable, Swipable and Shakable classes are called accordingly from this class.";
 	#region TOUCH_INPUT
+	public static List<Vector3> swipeDirections;
+
 	private static readonly int maxNumberTouches = 20;
 	private Holdable[] heldLastFrame = new Holdable[maxNumberTouches];
 	private Holdable[] heldThisFrame = new Holdable[maxNumberTouches];
@@ -59,6 +61,9 @@ public class InputSystem : Singleton<InputSystem>
 		{
 			touchPositions.Add(i, new List<Vector3>());
 		}
+
+		// Initialize swipe list
+		swipeDirections = new List<Vector3>();
 
 		// Initialize shake values
 		magnitudeVelocity = 0;
@@ -136,6 +141,7 @@ public class InputSystem : Singleton<InputSystem>
 	#region TOUCH_INPUT
 	private void HandleTouchInput()
 	{
+		swipeDirections.Clear();
 		// Resolve all touches
 		Touch[] touches = GetTouches();
 		foreach (Touch touch in touches) 
@@ -306,6 +312,7 @@ public class InputSystem : Singleton<InputSystem>
 		Vector3 lastPoint = Camera.main.ScreenToWorldPoint(new Vector3(lastPosition.x, lastPosition.y, Camera.main.nearClipPlane));
 
 		Vector3 direction = lastPoint - firstPoint;
+		swipeDirections.Add(direction);
 		swipeable.OnSwipe(raycastHits[touch.fingerId].Value, direction);
 		touchPositions[touch.fingerId].Clear();
 		touchPositions[touch.fingerId].Add(touch.position);
