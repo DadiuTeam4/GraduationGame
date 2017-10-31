@@ -414,7 +414,6 @@ GameObject:
   - component: {fileID: 1176349729}
   - component: {fileID: 1176349728}
   - component: {fileID: 1176349727}
-  - component: {fileID: 1176349733}
   - component: {fileID: 1176349734}
   m_Layer: 0
   m_Name: Main Camera
@@ -519,22 +518,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1176349733
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1176349726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8281b063971a8294d8a53b1c8edf6a13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cameraTransform: {fileID: 1176349732}
-  shakeDuration: 5
-  shakeIntensity: 1
-  playerRd: {fileID: 814058944}
-  isShaking: 1
 --- !u!114 &1176349734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +530,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 814058943}
-  isFollwingTheHuner: 0
+  isCameraFollwingPlayer: 0
+  shakeDuration: 10
+  shakeIntensity: 0.5
+  isShaking: 1
+  CameraSpeed: 0.1
 --- !u!1 &1710176721
 GameObject:
   m_ObjectHideFlags: 0
