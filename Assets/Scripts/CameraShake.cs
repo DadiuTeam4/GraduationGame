@@ -12,20 +12,25 @@ public class CameraShake : MonoBehaviour
     public float shakeDuration = 0f;
     public float shakeIntensity = 0.1f;
 
+    public Rigidbody playerRd;
+
     public bool isShaking;
-    Vector3 originalPos;
-    // Use this for initialization
+
     void Awake()
     {
         if (cameraTransform == null)
         {
             cameraTransform = GetComponent<Transform>();
         }
+
+        if(playerRd == null)
+        {
+            Debug.LogError("playerRd in Camera Shake Class is NUll!");
+        }
     }
 
     void Start()
     {
-        originalPos = cameraTransform.position;
         isShaking = true;
     }
 
@@ -42,7 +47,9 @@ public class CameraShake : MonoBehaviour
             {
                 if (shakeDuration > 0)
                 {
-                    cameraTransform.position = originalPos + Random.insideUnitSphere * shakeIntensity;
+                    Vector3 intensity = Random.insideUnitSphere * shakeIntensity;
+                    cameraTransform.position = cameraTransform.position + intensity;
+                    playerRd.AddForce(intensity * 100);
                     //Decrease the shake intensity with time elapsing
                     shakeIntensity -= Time.deltaTime * shakeIntensity / shakeDuration; 
                     shakeDuration -= Time.deltaTime;
@@ -50,7 +57,6 @@ public class CameraShake : MonoBehaviour
                 else
                 {
                     shakeDuration = 0f;
-                    cameraTransform.position = originalPos;
                     isShaking = false;
                 }
             }

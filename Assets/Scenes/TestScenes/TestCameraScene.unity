@@ -333,6 +333,7 @@ GameObject:
   - component: {fileID: 1176349728}
   - component: {fileID: 1176349727}
   - component: {fileID: 1176349733}
+  - component: {fileID: 1176349734}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -430,7 +431,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1176349726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.8, z: -22.8}
+  m_LocalPosition: {x: 0, y: 11.55, z: -17.48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -450,6 +451,21 @@ MonoBehaviour:
   cameraTransform: {fileID: 1176349732}
   shakeDuration: 5
   shakeIntensity: 0.5
+  playerRd: {fileID: 814058944}
+  isShaking: 0
+--- !u!114 &1176349734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1176349726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcfa708eb0e68344fbe565e6f5f8aa8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 814058943}
+  isFollwingTheHuner: 1
 --- !u!1 &1710176721
 GameObject:
   m_ObjectHideFlags: 0
@@ -498,6 +514,20 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
+  m_FalloffTable:
+    m_Table[0]: 0
+    m_Table[1]: 0
+    m_Table[2]: 0
+    m_Table[3]: 0
+    m_Table[4]: 0
+    m_Table[5]: 0
+    m_Table[6]: 0
+    m_Table[7]: 0
+    m_Table[8]: 0
+    m_Table[9]: 0
+    m_Table[10]: 0
+    m_Table[11]: 0
+    m_Table[12]: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
