@@ -10,7 +10,7 @@ public class CameraShake : MonoBehaviour
     public Transform cameraTransform;
 
     public float shakeDuration = 0f;
-    public float shakeIntensity = 0.1f;
+    public float shakeIntensity = 0.5f;
 
     public Rigidbody playerRd;
 
