@@ -11,5 +11,5 @@ public class Holdable : MonoBehaviour
 	
 	public virtual void OnTouchBegin(RaycastHit hit) {}
 	public virtual void OnTouchHold(RaycastHit hit) {}
-	public virtual void OnTouchReleased(RaycastHit hit) {}
+	public virtual void OnTouchReleased() {}
 }

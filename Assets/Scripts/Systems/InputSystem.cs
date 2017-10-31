@@ -8,8 +8,12 @@ using UnityEngine;
 
 public class InputSystem : Singleton<InputSystem>
 {
-	private readonly List<Holdable> heldLastFrame = new List<Holdable>();
-	private readonly List<Holdable> heldThisFrame = new List<Holdable>();
+	private static readonly int maxNumberTouches = 20;
+
+	private Holdable[] heldLastFrame = new Holdable[maxNumberTouches];
+	private Holdable[] heldThisFrame = new Holdable[maxNumberTouches];
+	
+	private RaycastHit?[] raycastHits = new RaycastHit?[maxNumberTouches];
 
 	#region DEBUG
 	#if UNITY_EDITOR
@@ -48,13 +52,13 @@ public class InputSystem : Singleton<InputSystem>
 
 				case (TouchPhase.Ended):
 				{
-					TouchEnded();
+					TouchEnded(touch);
 					break;
 				}
 
 				case (TouchPhase.Canceled):
 				{
-					TouchCanceled();
+					TouchCanceled(touch);
 					break;
 				}
 			}
@@ -64,55 +68,22 @@ public class InputSystem : Singleton<InputSystem>
 		#if UNITY_EDITOR
 		// MOUSE DEBUGGING
 		// NOT COMPILED IN BUILDS
-		if (Input.GetMouseButton(0)) 
+		if (touches.Length == 0)
 		{
-			Vector2 mousePos = Input.mousePosition;
-			Holdable holdable = CastRayFromMousePos(mousePos);
-			if (holdable)
+			if (Input.GetMouseButton(0)) 
 			{
-				heldThisFrame.Add(holdable);
-				if (Input.GetMouseButtonDown(0)) 
-				{
-					if (!mouseDownLastFrame)
-					{
-						holdable.OnTouchBegin();
-					}
-				}
-
-				foreach (Holdable lastFrameHoldable in heldLastFrame)
-				{
-					if (!lastFrameHoldable.Equals(holdable))
-					{
-						lastFrameHoldable.OnTouchReleased();
-					}
-				}
-			}		
-			else
-			{
-				foreach (Holdable lastFrameHoldable in heldLastFrame)
-				{
-					lastFrameHoldable.OnTouchReleased();
-				}
+				OnMouse();
 			}
-			mouseDownLastFrame = true;
-		}
 
-		else if (Input.GetMouseButtonUp(0))
-		{
-			Vector2 mousePos = Input.mousePosition;
-			Holdable holdable = CastRayFromMousePos(mousePos);
-			if (holdable)
+			else if (Input.GetMouseButtonUp(0))
 			{
-				holdable.OnTouchReleased();
-				mouseDownLastFrame = false;
-
-
+				OnMouseUp();
 			}
 		}
 		#endif
 		#endregion
 
-        CallHeldObjects();
+        CallHeldObjects(touches);
 	}
 	#endregion
 
@@ -128,109 +99,178 @@ public class InputSystem : Singleton<InputSystem>
 
 	private void TouchBegan(Touch touch) 
 	{
-		Holdable holdable = CastRayFromTouch(touch);
-		if (holdable)
+		if (CastRayFromTouch(touch))
 		{
-			holdable.OnTouchBegin();
-			holdable.GiveTouchFeedback();
+			// Check if the touch hit a holdable
+			Holdable holdable = GetHoldable(raycastHits[touch.fingerId].Value);
+			if (holdable)
+			{
+				holdable.OnTouchBegin(raycastHits[touch.fingerId].Value);
+				heldThisFrame[touch.fingerId] = holdable;
+			}
 		}
 	}
 
 	private void TouchStationary(Touch touch)
 	{
-        Holdable holdable = CastRayFromTouch(touch);
-        if (holdable)
-        {
-            heldThisFrame.Add(holdable);
-        }
+		heldThisFrame[touch.fingerId] = heldLastFrame[touch.fingerId];
     }
 
 	private void TouchMoved(Touch touch) 
 	{
-		Holdable holdable = CastRayFromTouch(touch);
-		if (holdable) 
+		if (CastRayFromTouch(touch))
 		{
-			heldThisFrame.Add(holdable);
-
-			foreach (Holdable lastFrameHoldable in heldLastFrame)
+			// Check if the touch hit a holdable
+			Holdable holdable = GetHoldable(raycastHits[touch.fingerId].Value);
+			if (holdable)
 			{
-				if (!lastFrameHoldable.Equals(holdable))
+				heldThisFrame[touch.fingerId] = holdable;
+				if (heldThisFrame[touch.fingerId] != heldLastFrame[touch.fingerId])
 				{
-					lastFrameHoldable.OnTouchReleased();
+					heldThisFrame[touch.fingerId].OnTouchBegin(raycastHits[touch.fingerId].Value);
 				}
 			}
-		}
-	}
 
-	private void TouchEnded() 
-	{
-		foreach (Holdable holdable in heldLastFrame) 
+		}
+		if (heldLastFrame[touch.fingerId] && heldLastFrame[touch.fingerId] != heldThisFrame[touch.fingerId])
 		{
-			holdable.OnTouchReleased();
+			heldLastFrame[touch.fingerId].OnTouchReleased();
 		}
 	}
 
-	private void TouchCanceled() 
+	private void TouchEnded(Touch touch) 
 	{
-		foreach (Holdable holdable in heldLastFrame) 
+		if (heldLastFrame[touch.fingerId])
 		{
-			holdable.OnTouchReleased();
+			heldLastFrame[touch.fingerId].OnTouchReleased();
 		}
+		raycastHits[touch.fingerId] = null;
 	}
 
-	private Tuple<Holdable, RaycastHit> CastRayFromTouch(Touch touch)
+	private void TouchCanceled(Touch touch) 
 	{
-		Holdable holdableHit = null;
+		if (heldLastFrame[touch.fingerId])
+		{
+			heldLastFrame[touch.fingerId].OnTouchReleased();
+		}
+		raycastHits[touch.fingerId] = null;
+	}
+
+	private bool CastRayFromTouch(Touch touch)
+	{
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(touch.position);
 		if (Physics.Raycast(ray, out hit)) 
 		{
-			holdableHit = hit.collider.GetComponent<Holdable>();
+			raycastHits[touch.fingerId] = hit;
+			return true;
 		}
-		return holdableHit;
+		raycastHits[touch.fingerId] = null;
+		return false;
 	}
 
-	private void CallHeldObjects()
+	private Holdable GetHoldable(RaycastHit hit)
+	{
+		return hit.collider.GetComponent<Holdable>();
+	}
+
+	private void CallHeldObjects(Touch[] touches)
 	{
 		// Check if holdables are held
-		foreach (Holdable holdable in heldThisFrame)
+		foreach (Touch touch in touches)
 		{
-			if (heldLastFrame.Contains(holdable))
+			if (heldThisFrame[touch.fingerId])
 			{
-				holdable.timeHeld += Time.deltaTime;
-				holdable.OnTouchHold();
-			}
-			else
-			{
-				holdable.timeHeld = 0;
+				if (heldThisFrame[touch.fingerId] == heldLastFrame[touch.fingerId])
+				{
+					heldThisFrame[touch.fingerId].timeHeld += Time.deltaTime;
+					heldThisFrame[touch.fingerId].OnTouchHold(raycastHits[touch.fingerId].Value);
+				}
+				else
+				{
+					heldThisFrame[touch.fingerId].timeHeld = 0;
+				}
 			}
 		}
 
 		// Reset held holdables
-		heldLastFrame.Clear();
-		foreach (Holdable holdable in heldThisFrame) 
+		for (int i = 0; i < maxNumberTouches; i++)
 		{
-			heldLastFrame.Add(holdable);
+			heldLastFrame[i] = heldThisFrame[i];
+			heldThisFrame[i] = null;
 		}
-
-		heldThisFrame.Clear();
 	}
 
 	#region DEBUG
 	#if UNITY_EDITOR
 	// MOUSE DEBUGGING
 	// NOT COMPILED IN BUILDS
-	private Holdable CastRayFromMousePos(Vector2 pos) 
+	private void OnMouse()
 	{
-		Holdable holdableHit = null;
+		Vector2 mousePos = Input.mousePosition;
+		if (CastRayFromMousePos(mousePos))
+		{
+			// Check if the ray hit a holdable
+			Holdable holdable = GetHoldable(raycastHits[0].Value);
+			if (holdable)
+			{
+				heldThisFrame[0] = holdable;
+				if (Input.GetMouseButtonDown(0)) 
+				{
+					if (!mouseDownLastFrame)
+					{
+						holdable.OnTouchBegin(raycastHits[0].Value);
+					}
+				}
+
+				foreach (Holdable lastFrameHoldable in heldLastFrame)
+				{
+					if (lastFrameHoldable && !lastFrameHoldable.Equals(holdable))
+					{
+						lastFrameHoldable.OnTouchReleased();
+					}
+				}
+			}
+		}		
+		else
+		{
+			foreach (Holdable lastFrameHoldable in heldLastFrame)
+			{
+				if (lastFrameHoldable)
+				{
+					lastFrameHoldable.OnTouchReleased();
+				}
+			}
+		}
+		mouseDownLastFrame = true;
+	}
+
+	private void OnMouseUp()
+	{
+		Vector2 mousePos = Input.mousePosition;
+		if (CastRayFromMousePos(mousePos))
+		{
+			// Check if the ray hit a holdable
+			Holdable holdable = GetHoldable(raycastHits[0].Value);
+			if (holdable)
+			{
+				holdable.OnTouchReleased();
+				mouseDownLastFrame = false;
+			}
+		}
+	}
+
+	private bool CastRayFromMousePos(Vector2 pos) 
+	{
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(pos);
 		if (Physics.Raycast(ray, out hit))
 		{
-			lastRaycastHit = hit.point;
-			holdableHit = hit.collider.GetComponent<Holdable>();
+			raycastHits[0] = hit;
+			return true;
 		}
-		return holdableHit;
+		raycastHits[0] = null;
+		return false;
 	}
 	#endif
 	#endregion
