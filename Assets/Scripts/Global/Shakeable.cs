@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Shakeable : MonoBehaviour
 {
-	//Vitual fucntion called when shaking the tablets
-    public virtual void OnShakeBegin() {}
+    public virtual void OnShakeBegin(float magnitude) {}
+    public virtual void OnShake(float magnitude) {}
+    public virtual void OnShakeEnd() {}
 }
