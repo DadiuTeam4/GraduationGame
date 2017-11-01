@@ -3,6 +3,7 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_Color ("Tint", Color) = (1,1,1,1)
 		_Fog ("Fog", 2D) = "white" {}
 		_Range ("Range", Range(0,0.5)) = 0
 		_Speed ("Speed", Range(0,5)) = 0
@@ -47,6 +48,7 @@
 			sampler2D_float _CameraDepthTexture;
 			float _Range;
 			float _Speed;
+			float4 _Color;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
@@ -54,12 +56,13 @@
 				float linearDepth = Linear01Depth(depth);
 				linearDepth = max(0,(_Range - linearDepth) / _Range);
 				float quadrictDepth = sqrt(sqrt(sqrt(depth)));
+				//float quadrictDepth = depth*depth;
 				quadrictDepth = max(0,(_Range - quadrictDepth) / _Range);
 				float2 uvs = float2(_Time.w *_Speed, sin(_Time.w) * _Speed);
 				float4 fog = tex2D(_Fog, i.uv * 1 + uvs)*1.5;
 
 				fixed4 col = tex2D(_MainTex, i.uv);
-				return lerp(col, float4(1,1,1,1), 1-linearDepth);
+				return lerp(col, _Color, 1-linearDepth*linearDepth);
 			}
 			ENDCG
 		}
