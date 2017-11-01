@@ -36,7 +36,8 @@ public class TreeController : Shakeable
     {
         if (magnitude > thresholdForAppleFallDown && isTreeFall == false)
         {
-            treeRd.AddForce(GetShakeForceOnShakebleObject(magnitude));
+			Vector3 randomForce = GetShakeForceOnShakebleObject(magnitude);
+            treeRd.AddForce(new Vector3(randomForce.x, 0f, randomForce.y));
 			isTreeFall = true;
         }
 
