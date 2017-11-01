@@ -12,8 +12,6 @@ public class AppleController : Shakeable
 
 	public float thresholdForAppleFallDown = 800f;
 
-    private const float COEFFICIENT_FROM_MAGNITUDE_TO_FORCE = 0.005f;
-
     void Awake()
     {
         appleRd = GetComponent<Rigidbody>();
@@ -52,8 +50,4 @@ public class AppleController : Shakeable
 
     }
 
-    Vector3 GetShakeForceOnShakebleObject(float magnitude)
-    {
-        return Random.insideUnitSphere * magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_FORCE;
-    }
 }

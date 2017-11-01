@@ -16,7 +16,7 @@ public class CameraController : Shakeable
     public float shakeDuration = 2f;
     private float shakeIntensity = 0.4f;
 
-    private const float COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY = 0.0001f; 
+    private const float COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY = 0.00005f; 
     public bool isShaking = false;
     private Transform cameraTransform;
     public float CameraSpeed = 0.1f;
