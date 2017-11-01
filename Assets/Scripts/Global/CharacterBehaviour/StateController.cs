@@ -1,5 +1,4 @@
-﻿
-// Author: Mathias Dam Hedelund
+﻿// Author: Mathias Dam Hedelund
 // Contributors:
 using System.Collections;
 using System.Collections.Generic;
@@ -103,14 +102,11 @@ public class StateController : MonoBehaviour
 		}
 		#region DEBUG
 		#if UNITY_EDITOR
-		if (aiDebugging)
-		{
-			debugInfo = "";
-			UpdateDebugInfo();
-		}
+		debugInfo = "";
+		UpdateDebugInfo();
 		#endif
 		#endregion
-		//animator.SetFloat("speed", navigator.GetSpeed());
+		animator.SetFloat("speed", navigator.GetSpeed());
 		currentState.UpdateState(this);
 	}
 

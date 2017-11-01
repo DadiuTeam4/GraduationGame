@@ -18,32 +18,47 @@ namespace Events
 		public float floatComponent = 0.0f;
 		public int intComponent = 0;
 	}
-	
+
 	public delegate void EventDelegate(EventArgument argument);
 
 	public class EventManager : Singleton<EventManager> 
 	{
-		private Dictionary<CustomEvent, EventDelegate> listeners = new Dictionary<CustomEvent, EventDelegate>();
+		private Dictionary<CustomEvent, List<EventDelegate>> listeners = new Dictionary<CustomEvent, List<EventDelegate>>();
+
 
 		public void AddListener(CustomEvent eventName, EventDelegate newListener)
 		{
+			List<EventDelegate> eventList;
 			if (listeners.ContainsKey(eventName))
 			{
-				listeners[eventName] += newListener;
+				listeners.TryGetValue(eventName, out eventList);
+
+				eventList.Add(newListener);
 			}
 			else
 			{
-				listeners.Add(eventName, newListener);
+				eventList = new List<EventDelegate>();
+				eventList.Add(newListener);
+				listeners.Add(eventName, eventList);
 			}
 		}
 
 		public bool RemoveListener(CustomEvent eventName, EventDelegate oldListener)
 		{
+			List<EventDelegate> eventList;
 			if (listeners.ContainsKey(eventName))
 			{
-				listeners[eventName] -= oldListener;
-					
-				return true;
+				listeners.TryGetValue(eventName, out eventList);
+
+				foreach (EventDelegate eventDelegate in eventList)
+				{
+					if (eventDelegate == oldListener)
+					{
+						eventList.Remove(eventDelegate);
+						
+						return true;
+					}
+				}
 			}
 
 			return false;
@@ -53,15 +68,20 @@ namespace Events
 		{
 			if (listeners.ContainsKey(eventName))
 			{
-				EventDelegate eventDelegate;
-				listeners.TryGetValue(eventName, out eventDelegate);
-			
-				eventDelegate(argument);
+				List<EventDelegate> eventList;
+				listeners.TryGetValue(eventName, out eventList);
+				
+				foreach(EventDelegate auto in eventList)
+				{
+					auto(argument);
+				}
 
 				return true;
 			}
 
 			return false;
 		}
+
+
 	}
 }

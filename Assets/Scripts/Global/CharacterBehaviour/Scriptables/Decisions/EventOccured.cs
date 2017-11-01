@@ -6,7 +6,7 @@ using UnityEngine;
 using Events;
 
 [CreateAssetMenu(menuName = "Character Behaviour/Decisions/EventOccured")]
-public class EventOccured : Decision
+public class EventOccured : Decision 
 {
 	public CustomEvent eventName;
 	[Range(0.0f, 1.0f)] public float chanceOfReacting = 1.0f;

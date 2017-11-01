@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(menuName = "Character Behaviour/Decisions/TimeElapsed")]
+[CreateAssetMenu(menuName = "HugoAI/Decisions/TimeElapsed")]
 public class TimeElapsed : Decision 
 {
 	public float time;
