@@ -4,36 +4,64 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestPlayerMovement : MonoBehaviour {
+public class TestPlayerMovement : Shakeable
+{
     private Camera cam;
     private bool isWalking = false;
     Vector3 destination;
+
+    private Rigidbody playerRd;
+
+    private const float COEFFICIENT_FROM_MAGNITUDE_TO_FORCE = 0.01f; 
+
+    void Awake()
+    {
+        playerRd = GetComponent<Rigidbody>();
+    }
     
-    // Use this for initialization
-    void Start () {
+    void Start()
+    {
         cam = Camera.main;
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
 
         RaycastHit hit;
-        
+
         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit, 100)&& Input.GetMouseButtonDown(0))
+        if (Physics.Raycast(ray, out hit, 100) && Input.GetMouseButtonDown(0))
         {
-            destination = hit.point+new Vector3(0,0.5f,0);
+            destination = hit.point + new Vector3(0, 0.5f, 0);
             isWalking = true;
         }
 
-        if (isWalking) {
+        if (isWalking)
+        {
             transform.position = Vector3.MoveTowards(transform.position, destination, 0.2f);
             Vector3 distance = transform.position - destination;
-            if (distance.magnitude < 0.1) {
+            if (distance.magnitude < 0.1)
+            {
                 isWalking = false;
             }
         }
 
     }
-    
+
+    public override void OnShakeBegin(float magnitude)
+    {
+        playerRd.AddForce(GetShakeForceOnPlayer(magnitude));
+    }
+
+    public override void OnShake(float magnitude)
+    {
+        playerRd.AddForce(GetShakeForceOnPlayer(magnitude));
+    }
+
+    Vector3 GetShakeForceOnPlayer(float magnitude)
+    {
+        return Random.insideUnitSphere * magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_FORCE;
+    }
+
 }

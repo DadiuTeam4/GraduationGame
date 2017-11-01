@@ -37,15 +37,12 @@ public class CameraController : Shakeable
 
      public override void OnShakeBegin(float magnitude) 
      {
-         Debug.Log("Start Shaking");
          shakeIntensity = magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY;
          isShaking = true;
      }
 
     public override void OnShake(float magnitude) 
      {
-         Debug.Log("Shaking");
-         Debug.Log(magnitude);
          shakeDuration = 2f;
          float newShakeIntensity = magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY;
          if(newShakeIntensity > shakeIntensity)
