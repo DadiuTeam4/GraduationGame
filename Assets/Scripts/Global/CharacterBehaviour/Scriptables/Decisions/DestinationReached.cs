@@ -4,14 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HugoAI 
+[CreateAssetMenu(menuName = "Character Behaviour/Decisions/DestinationReached")]
+public class DestinationReached : Decision
 {
-	[CreateAssetMenu(menuName = "HugoAI/Decisions/DestinationReached")]
-	public class DestinationReached : Decision 
+	public override bool Decide(StateController controller) 
 	{
-		public override bool Decide(StateController controller) 
-		{
-			return controller.navigator.CheckDestinationReached();
-		}
+		return controller.navigator.CheckDestinationReached();
 	}
 }
