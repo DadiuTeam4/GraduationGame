@@ -47,7 +47,6 @@ public class AppleController : Shakeable
         }
         else
         {
-			Debug.Log("Add Forece");
             appleRd.AddForce(GetShakeForceOnShakebleObject(magnitude));
         }
 
