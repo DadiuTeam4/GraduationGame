@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Shakeable
 {
 
     //Variable For following the player
@@ -13,18 +13,17 @@ public class CameraController : MonoBehaviour
     Vector3 offset;
 
     //Variables For Shaking
-    public float shakeDuration = 0f;
-    public float shakeIntensity = 0.5f;
-    public bool isShaking;
+    public float shakeDuration = 2f;
+    private float shakeIntensity = 0.4f;
+
+    private const float COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY = 0.0001f; 
+    public bool isShaking = false;
     private Transform cameraTransform;
-    private Rigidbody playerRd;
     public float CameraSpeed = 0.1f;
 
     void Awake()
     {
         cameraTransform = GetComponent<Transform>();
-
-        playerRd = player.GetComponent<Rigidbody>();
 
     }
 
@@ -33,8 +32,27 @@ public class CameraController : MonoBehaviour
         offset = transform.position - player.transform.position;
         //If is shaking, should not follow the player
         isCameraFollwingPlayer = false;
-        isShaking = true;
+        isShaking = false;
     }
+
+     public override void OnShakeBegin(float magnitude) 
+     {
+         Debug.Log("Start Shaking");
+         shakeIntensity = magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY;
+         isShaking = true;
+     }
+
+    public override void OnShake(float magnitude) 
+     {
+         Debug.Log("Shaking");
+         Debug.Log(magnitude);
+         shakeDuration = 2f;
+         float newShakeIntensity = magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_INTENSITY;
+         if(newShakeIntensity > shakeIntensity)
+         {
+             shakeIntensity = newShakeIntensity;
+         } 
+     }
 
     // Update is called once per frame
     void Update()
@@ -78,8 +96,6 @@ public class CameraController : MonoBehaviour
     {
         Vector3 intensity = Random.insideUnitSphere * shakeIntensity;
         cameraTransform.position = cameraTransform.position + intensity;
-        playerRd.AddForce(intensity * 100);
-        //Decrease the shake intensity with time elapsing
         shakeIntensity -= Time.deltaTime * shakeIntensity / shakeDuration;
         shakeDuration -= Time.deltaTime;
     }
