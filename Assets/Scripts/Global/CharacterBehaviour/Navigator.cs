@@ -6,23 +6,40 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Rigidbody))]
 public class Navigator : MonoBehaviour 
 {
 	[HideInInspector] public Transform currentWaypoint; 
 
+	public Transform waypoint;
+	public bool autoRepath;
+
 	private NavMeshAgent navMeshAgent;
 	private bool destinationReached;
-	private bool randomSet;
-	private int randomWayPoint;
 
 	private void Awake() 
 	{
 		navMeshAgent = GetComponent<NavMeshAgent>();	
 	}
 
+	private void Start()
+	{
+		navMeshAgent.autoRepath = autoRepath;
+	}
+
 	public void SetRandomDestination(StateController controller)
 	{
 		
+	}
+
+	public void Move(Vector3 direction)
+	{
+		navMeshAgent.Move(direction * navMeshAgent.speed * Time.deltaTime);
+	}
+
+	public void SetDestination()
+	{
+		SetDestination(waypoint);
 	}
 
 	public void SetDestination(Transform destination) 
@@ -49,7 +66,6 @@ public class Navigator : MonoBehaviour
 			{
 				if (!navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude == 0f)
 				{
-					randomSet = false;
 					return true;
 				}
 			}
