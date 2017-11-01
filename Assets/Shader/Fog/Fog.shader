@@ -55,12 +55,6 @@
 				float depth = DecodeFloatRG(tex2D(_CameraDepthTexture, i.uv));
 				float linearDepth = Linear01Depth(depth);
 				linearDepth = max(0,(_Range - linearDepth) / _Range);
-				float quadrictDepth = sqrt(sqrt(sqrt(depth)));
-				//float quadrictDepth = depth*depth;
-				quadrictDepth = max(0,(_Range - quadrictDepth) / _Range);
-				float2 uvs = float2(_Time.w *_Speed, sin(_Time.w) * _Speed);
-				float4 fog = tex2D(_Fog, i.uv * 1 + uvs)*1.5;
-
 				fixed4 col = tex2D(_MainTex, i.uv);
 				return lerp(col, _Color, 1-linearDepth*linearDepth);
 			}
