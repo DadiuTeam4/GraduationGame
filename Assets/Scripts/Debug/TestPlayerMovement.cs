@@ -12,8 +12,6 @@ public class TestPlayerMovement : Shakeable
 
     private Rigidbody playerRd;
 
-    private const float COEFFICIENT_FROM_MAGNITUDE_TO_FORCE = 0.01f; 
-
     void Awake()
     {
         playerRd = GetComponent<Rigidbody>();
@@ -51,17 +49,12 @@ public class TestPlayerMovement : Shakeable
 
     public override void OnShakeBegin(float magnitude)
     {
-        playerRd.AddForce(GetShakeForceOnPlayer(magnitude));
+        playerRd.AddForce(GetShakeForceOnShakebleObject(magnitude));
     }
 
     public override void OnShake(float magnitude)
     {
-        playerRd.AddForce(GetShakeForceOnPlayer(magnitude));
-    }
-
-    Vector3 GetShakeForceOnPlayer(float magnitude)
-    {
-        return Random.insideUnitSphere * magnitude * COEFFICIENT_FROM_MAGNITUDE_TO_FORCE;
+        playerRd.AddForce(GetShakeForceOnShakebleObject(magnitude));
     }
 
 }
