@@ -86,7 +86,7 @@ LightmapSettings:
     m_PVRFilteringAtrousColorSigma: 1
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
-  m_LightingDataAsset: {fileID: 112000004, guid: 8717b4105158a4a5b92e2595804c3378,
+  m_LightingDataAsset: {fileID: 112000004, guid: 3befcef96852f499a97486dc0e792c2c,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -108,7 +108,7 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: c13e112ad69e842dcb29ac64066223bd, type: 2}
 --- !u!1 &166904141
 GameObject:
   m_ObjectHideFlags: 0
