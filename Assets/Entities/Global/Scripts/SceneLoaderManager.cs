@@ -7,7 +7,8 @@ using UnityEngine.SceneManagement;
 
 using Events;
 
-public class SceneLoaderManager : Singleton<SceneLoaderManager> {
+public class SceneLoaderManager : Singleton<SceneLoaderManager> 
+{
 
     // Variables to keep track of scenes to load and unload.
     GameScene previousScene;
@@ -16,12 +17,12 @@ public class SceneLoaderManager : Singleton<SceneLoaderManager> {
 
     // Clusters of scenes to be loaded at certain points.
     GameScene[] gameStart = { GameScene.GameOpener, GameScene.GlobalScene, GameScene.IntroLevel, GameScene.CrossRoad1 };
-    GameScene[] gameEnd = { GameScene.EndScene, GameScene.Credits }
+    GameScene[] gameEnd = { GameScene.EndScene, GameScene.Credits };
 
     void Start()
     {
         SceneClusterLoader(gameStart);
-        EventManager.AddListener(CustomEvent.changeScene, sceneLoader(EventArgument));
+        //EventManager.AddListener(CustomEvent.changeScene, sceneLoader(EventArgument));
      
         previousScene = GameScene.GameOpener;
         currentScene = GameScene.IntroLevel;
