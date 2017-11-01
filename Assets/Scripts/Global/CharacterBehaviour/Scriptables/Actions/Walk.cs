@@ -8,7 +8,7 @@ using UnityEngine;
 [CreateAssetMenu (menuName = "Character Behaviour/Actions/Walk")]
 public class Walk : Action
 {
-	public bool walkToWaypoint;
+	public bool walkToWaypoint = true;
 	public bool walkInDirection;
 	public Vector3 direction;
 
