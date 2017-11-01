@@ -4,21 +4,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TreeController : MonoBehaviour {
+public class TreeController : Shakeable
 
-	private Rigidbody treeRd;
+{
+    public float thresholdForAppleFallDown = 800f;
+    private Rigidbody treeRd;
 
-	void Awake()
+	private bool isTreeFall;
+
+    void Awake()
+    {
+        treeRd = GetComponent<Rigidbody>();
+    }
+
+	void Start()
 	{
-		treeRd = GetComponent<Rigidbody>();
+		isTreeFall = false;
 	}
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public override void OnShakeBegin(float magnitude)
+    {
+        checkTreeFallDown(magnitude);
+    }
+
+    public override void OnShake(float magnitude)
+    {
+		checkTreeFallDown(magnitude);
+    }
+
+    private void checkTreeFallDown(float magnitude)
+    {
+        if (magnitude > thresholdForAppleFallDown && isTreeFall == false)
+        {
+            treeRd.AddForce(GetShakeForceOnShakebleObject(magnitude));
+			isTreeFall = true;
+        }
+
+    }
+
 }
