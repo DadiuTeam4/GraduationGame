@@ -7,11 +7,24 @@ using UnityEngine;
 
 namespace Events
 {
+	public enum CustomEvent
+	{
+		test
+	}
+
+	public class EventArgument
+	{
+		public string stringComponent = "";
+		public float floatComponent = 0.0f;
+		public int intComponent = 0;
+	}
+
+	public delegate void EventDelegate(EventArgument argument);
+
 	public class EventManager : Singleton<EventManager> 
 	{
 		private Dictionary<CustomEvent, List<EventDelegate>> listeners = new Dictionary<CustomEvent, List<EventDelegate>>();
 
-		public delegate void EventDelegate(EventArgument argument);
 
 		public void AddListener(CustomEvent eventName, EventDelegate newListener)
 		{
@@ -69,15 +82,6 @@ namespace Events
 			return false;
 		}
 
-		public enum CustomEvent
-		{
-			test
-		}
 
-		public class EventArgument
-		{
-			public string stringComponent = "";
-			public float floatComponent = 0.0f;
-		}
 	}
 }
