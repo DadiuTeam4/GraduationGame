@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class CameraController : Shakeable
 {
 
     //Variable For following the player
@@ -14,8 +14,8 @@ public class CameraController : MonoBehaviour
 
     //Variables For Shaking
     public float shakeDuration = 5f;
-    public float shakeIntensity = 0.5f;
-    public bool isShaking;
+    private float shakeIntensity = 0.4f;
+    public bool isShaking = false;
     private Transform cameraTransform;
     private Rigidbody playerRd;
     public float CameraSpeed = 0.1f;
@@ -33,8 +33,25 @@ public class CameraController : MonoBehaviour
         offset = transform.position - player.transform.position;
         //If is shaking, should not follow the player
         isCameraFollwingPlayer = false;
-        isShaking = true;
+        isShaking = false;
     }
+
+     public override void OnShakeBegin(float magnitude) 
+     {
+         Debug.Log("Start Shaking");
+         //shakeIntensity = magnitude;
+         isShaking = true;
+     }
+
+    public override void OnShake(float magnitude) 
+     {
+         Debug.Log("Shaking");
+         shakeDuration = 5f;
+         if(magnitude > shakeIntensity)
+         {
+             shakeIntensity = magnitude;
+         } 
+     }
 
     // Update is called once per frame
     void Update()
@@ -78,11 +95,12 @@ public class CameraController : MonoBehaviour
     {
         Vector3 intensity = Random.insideUnitSphere * shakeIntensity;
         cameraTransform.position = cameraTransform.position + intensity;
-        playerRd.AddForce(intensity * 100);
+        //playerRd.AddForce(intensity * 100);
         //Decrease the shake intensity with time elapsing
         shakeIntensity -= Time.deltaTime * shakeIntensity / shakeDuration;
         shakeDuration -= Time.deltaTime;
     }
+
     void StopShakingCamera()
     {
         shakeDuration = 0f;
