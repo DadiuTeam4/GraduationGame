@@ -22,7 +22,8 @@ public class SceneLoaderManager : Singleton<SceneLoaderManager>
     void Start()
     {
         SceneClusterLoader(gameStart);
-        //EventManager.AddListener(CustomEvent.changeScene, sceneLoader(EventArgument));
+        EventDelegate eventDelegate = SceneLoader;
+        EventManager.GetInstance().AddListener(CustomEvent.changeScene, eventDelegate);
      
         previousScene = GameScene.GameOpener;
         currentScene = GameScene.IntroLevel;
@@ -46,7 +47,7 @@ public class SceneLoaderManager : Singleton<SceneLoaderManager>
     }
 
     // The main scene changing function. Updates scene trackers and loads and unloads scenes.
-    private void sceneLoader(GameScene upComingScene)
+    private void SceneLoader(EventArgument argument)
     {
         // This system is not correct, we need to find a way to keep track of
         // upcoming scenes.

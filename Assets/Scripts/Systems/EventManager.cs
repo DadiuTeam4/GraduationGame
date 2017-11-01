@@ -9,7 +9,8 @@ namespace Events
 {
 	public enum CustomEvent
 	{
-		test
+		test,
+		changeScene
 	}
 
 	public class EventArgument
