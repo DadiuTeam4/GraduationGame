@@ -6,5 +6,5 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TestScenes/AudioTestScene.unity
-    guid: 941abcb80b54040aab15f8f376ba5af8
+    path: Assets/Scenes/TestScenes/SinkTestScene.unity
+    guid: 58f471c19a7940b47b777bf00df9681c

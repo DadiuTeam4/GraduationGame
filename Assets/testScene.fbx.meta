@@ -1,0 +1,280 @@
+fileFormatVersion: 2
+guid: 8edc92a2e0cda0442b30e5aceeff99fb
+timeCreated: 1509463069
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: deformation01
+    100002: deformation01 1
+    100004: deformation02
+    100006: Groundplane:geo_groundplane
+    100008: Groundplane:geo_water
+    100010: Groundplane:Groundplane
+    100012: Rock01
+    100014: Rock01 1
+    100016: Rock02
+    100018: Rock03
+    100020: Rock04
+    100022: Rock05
+    100024: Rocks01:Rock01
+    100026: Rocks01:Rock02
+    100028: Rocks01:Rock03
+    100030: Rocks01:Rocks01
+    100032: Rocks02:Rock01
+    100034: Rocks02:Rock02
+    100036: Rocks02:Rock03
+    100038: Rocks02:Rock04
+    100040: Rocks02:Rock05
+    100042: Rocks02:Rocks02
+    100044: Rocks03:Rock01
+    100046: Rocks03:Rock02
+    100048: Rocks03:Rock03
+    100050: Rocks03:Rock04
+    100052: Rocks03:Rocks03
+    100054: Rocks04
+    100056: terrainDeformation01:deformation01
+    100058: terrainDeformation01:deformation02
+    100060: terrainDeformation01:Rock01
+    100062: terrainDeformation01:terrainDeformation01
+    100064: terrainDeformation02:deformation01
+    100066: terrainDeformation02:terrainDeformation02
+    100068: terrainDeformation03:deformation01
+    100070: terrainDeformation03:terrainDeformation02
+    100072: terrainDeformation04
+    100074: //RootNode
+    100076: tree_03_GEO
+    100078: tree_small_GEO
+    100080: tree_small_GEO1
+    100082: tree_small_GEO2
+    100084: tree_small_GEO3
+    100086: trees_placeholder_toh:broken_tree_GEO
+    100088: trees_placeholder_toh:trees_GRP
+    100090: trees_placeholder_toh:trunk_GEO
+    400000: deformation01
+    400002: deformation01 1
+    400004: deformation02
+    400006: Groundplane:geo_groundplane
+    400008: Groundplane:geo_water
+    400010: Groundplane:Groundplane
+    400012: Rock01
+    400014: Rock01 1
+    400016: Rock02
+    400018: Rock03
+    400020: Rock04
+    400022: Rock05
+    400024: Rocks01:Rock01
+    400026: Rocks01:Rock02
+    400028: Rocks01:Rock03
+    400030: Rocks01:Rocks01
+    400032: Rocks02:Rock01
+    400034: Rocks02:Rock02
+    400036: Rocks02:Rock03
+    400038: Rocks02:Rock04
+    400040: Rocks02:Rock05
+    400042: Rocks02:Rocks02
+    400044: Rocks03:Rock01
+    400046: Rocks03:Rock02
+    400048: Rocks03:Rock03
+    400050: Rocks03:Rock04
+    400052: Rocks03:Rocks03
+    400054: Rocks04
+    400056: terrainDeformation01:deformation01
+    400058: terrainDeformation01:deformation02
+    400060: terrainDeformation01:Rock01
+    400062: terrainDeformation01:terrainDeformation01
+    400064: terrainDeformation02:deformation01
+    400066: terrainDeformation02:terrainDeformation02
+    400068: terrainDeformation03:deformation01
+    400070: terrainDeformation03:terrainDeformation02
+    400072: terrainDeformation04
+    400074: //RootNode
+    400076: tree_03_GEO
+    400078: tree_small_GEO
+    400080: tree_small_GEO1
+    400082: tree_small_GEO2
+    400084: tree_small_GEO3
+    400086: trees_placeholder_toh:broken_tree_GEO
+    400088: trees_placeholder_toh:trees_GRP
+    400090: trees_placeholder_toh:trunk_GEO
+    2300000: deformation01
+    2300002: deformation01 1
+    2300004: deformation02
+    2300006: Groundplane:geo_groundplane
+    2300008: Groundplane:geo_water
+    2300010: Rock01
+    2300012: Rock01 1
+    2300014: Rock02
+    2300016: Rock03
+    2300018: Rock04
+    2300020: Rock05
+    2300022: Rocks01:Rock01
+    2300024: Rocks01:Rock02
+    2300026: Rocks01:Rock03
+    2300028: Rocks02:Rock01
+    2300030: Rocks02:Rock02
+    2300032: Rocks02:Rock03
+    2300034: Rocks02:Rock04
+    2300036: Rocks02:Rock05
+    2300038: Rocks03:Rock01
+    2300040: Rocks03:Rock02
+    2300042: Rocks03:Rock03
+    2300044: Rocks03:Rock04
+    2300046: terrainDeformation01:deformation01
+    2300048: terrainDeformation01:deformation02
+    2300050: terrainDeformation01:Rock01
+    2300052: terrainDeformation02:deformation01
+    2300054: terrainDeformation03:deformation01
+    2300056: tree_03_GEO
+    2300058: tree_small_GEO
+    2300060: tree_small_GEO1
+    2300062: tree_small_GEO2
+    2300064: tree_small_GEO3
+    2300066: trees_placeholder_toh:broken_tree_GEO
+    2300068: trees_placeholder_toh:trunk_GEO
+    3300000: deformation01
+    3300002: deformation01 1
+    3300004: deformation02
+    3300006: Groundplane:geo_groundplane
+    3300008: Groundplane:geo_water
+    3300010: Rock01
+    3300012: Rock01 1
+    3300014: Rock02
+    3300016: Rock03
+    3300018: Rock04
+    3300020: Rock05
+    3300022: Rocks01:Rock01
+    3300024: Rocks01:Rock02
+    3300026: Rocks01:Rock03
+    3300028: Rocks02:Rock01
+    3300030: Rocks02:Rock02
+    3300032: Rocks02:Rock03
+    3300034: Rocks02:Rock04
+    3300036: Rocks02:Rock05
+    3300038: Rocks03:Rock01
+    3300040: Rocks03:Rock02
+    3300042: Rocks03:Rock03
+    3300044: Rocks03:Rock04
+    3300046: terrainDeformation01:deformation01
+    3300048: terrainDeformation01:deformation02
+    3300050: terrainDeformation01:Rock01
+    3300052: terrainDeformation02:deformation01
+    3300054: terrainDeformation03:deformation01
+    3300056: tree_03_GEO
+    3300058: tree_small_GEO
+    3300060: tree_small_GEO1
+    3300062: tree_small_GEO2
+    3300064: tree_small_GEO3
+    3300066: trees_placeholder_toh:broken_tree_GEO
+    3300068: trees_placeholder_toh:trunk_GEO
+    4300000: deformation01
+    4300002: deformation02
+    4300004: Rock01
+    4300006: Rock01
+    4300008: Rock02
+    4300010: Rock03
+    4300012: Rock04
+    4300014: Rock05
+    4300016: Groundplane:geo_groundplane
+    4300018: Groundplane:geo_water
+    4300020: Rocks01:Rock01
+    4300022: Rocks01:Rock02
+    4300024: Rocks01:Rock03
+    4300026: Rocks02:Rock01
+    4300028: Rocks02:Rock02
+    4300030: Rocks02:Rock03
+    4300032: Rocks02:Rock04
+    4300034: Rocks02:Rock05
+    4300036: Rocks03:Rock01
+    4300038: Rocks03:Rock02
+    4300040: Rocks03:Rock03
+    4300042: Rocks03:Rock04
+    4300044: trees_placeholder_toh:broken_tree_GEO
+    4300046: trees_placeholder_toh:trunk_GEO
+    4300048: tree_small_GEO
+    4300050: tree_small_GEO1
+    4300052: tree_small_GEO2
+    4300054: tree_small_GEO3
+    4300056: tree_03_GEO
+    4300058: terrainDeformation01:deformation01
+    4300060: terrainDeformation01:deformation02
+    4300062: terrainDeformation01:Rock01
+    4300064: terrainDeformation02:deformation01
+    4300066: deformation01
+    4300068: terrainDeformation03:deformation01
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 150
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
