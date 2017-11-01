@@ -31,6 +31,10 @@ public class SinkableGround : Holdable
 	private MeshFilter meshFilter;
 	private Mesh mesh;
 	private Vector3[] originalVerticePositions;
+	private Vector3[] currentVertices;
+	private float[] verticeTimes;
+	private bool verticesWaiting = false;
+	private bool madeChange = false;
 
 	private List<Pair<int, float>> nearestPoints = new List<Pair<int, float>>();
 	
@@ -41,10 +45,49 @@ public class SinkableGround : Holdable
 		mesh = meshFilter.mesh;
 		meshCollider.sharedMesh = mesh;
 		originalVerticePositions = mesh.vertices;
+		currentVertices = mesh.vertices;
+
+		verticeTimes = new float[originalVerticePositions.Length];
 	}
 	
-	void Update () {
-		
+	void Update () 
+	{
+		if(verticesWaiting && Time.frameCount % updateRate == 0)
+		{
+			verticesWaiting = false;
+			for (int i = 0; i < verticeTimes.Length; i++)
+			{
+				if (verticeTimes[i] != 0.0f)
+				{
+					verticesWaiting = true;
+
+					if (Time.time > verticeTimes[i])
+					{
+						if (currentVertices[i].y + sinkSpeed < originalVerticePositions[i].y)
+						{
+							currentVertices[i].y += sinkSpeed;
+						}
+						else
+						{
+							currentVertices[i] = originalVerticePositions[i];
+							verticeTimes[i] = 0.0f;
+						}
+
+						madeChange = true;
+					}
+				}
+			}
+
+			if (madeChange)
+			{
+				mesh.vertices = currentVertices;
+				mesh.RecalculateNormals();
+
+				meshCollider.sharedMesh = mesh;
+
+				madeChange = false;
+			}
+		}
 	}
 
 	public override void OnTouchBegin(RaycastHit hit) 
@@ -55,13 +98,13 @@ public class SinkableGround : Holdable
 		pointHit = transform.InverseTransformPoint(pointHit);
 
 		mesh = meshFilter.mesh;
-		Vector3[] vertices = mesh.vertices;
+		currentVertices = mesh.vertices;
 		Vector3[] normals = mesh.normals;
 
 		float distance;
-		for(int i = 0; i < vertices.Length; i++)
+		for(int i = 0; i < currentVertices.Length; i++)
 		{
-			distance = Vector3.Distance(vertices[i], pointHit);
+			distance = Vector3.Distance(currentVertices[i], pointHit);
 			if (distance < radius)
 			{
 				Pair<int, float> newPoint = new Pair<int, float>(i, distance);
@@ -76,16 +119,20 @@ public class SinkableGround : Holdable
 	{
 		if(Time.frameCount % updateRate == 0)
 		{
-			Vector3[] vertices = mesh.vertices;
+			currentVertices = mesh.vertices;
 
-			if(Vector3.Distance(vertices[nearestPoints[0].GetFirst()], originalVerticePositions[nearestPoints[0].GetFirst()]) < depth)
+			if(Vector3.Distance(currentVertices[nearestPoints[0].GetFirst()], originalVerticePositions[nearestPoints[0].GetFirst()]) < depth)
 			{
 				foreach (Pair<int, float> pair in nearestPoints)
 				{
-					vertices[pair.GetFirst()].y -= sinkSpeed * ((radius - pair.GetSecond()) / radius);
+					currentVertices[pair.GetFirst()].y -= sinkSpeed * ((radius - pair.GetSecond()) / radius);
+					verticeTimes[pair.GetFirst()] = Time.time + riseDelay;	
+
+					verticesWaiting = true;
 				}
 				
-				mesh.vertices = vertices;
+				mesh.vertices = currentVertices;
+				mesh.RecalculateNormals();
 
 				meshCollider.sharedMesh = mesh;
 			}
