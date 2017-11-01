@@ -1,4 +1,5 @@
-﻿// Author: Mathias Dam Hedelund
+﻿
+// Author: Mathias Dam Hedelund
 // Contributors:
 using System.Collections;
 using System.Collections.Generic;
